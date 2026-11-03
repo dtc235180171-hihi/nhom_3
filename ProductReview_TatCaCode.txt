@@ -1,0 +1,159 @@
+==================== ProductReview/ProductReview.csproj ====================
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
+
+==================== ProductReview/Program.cs ====================
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Review/Index");
+}
+
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Review}/{action=Index}/{id?}");
+
+app.Run();
+
+==================== ProductReview/Controllers/ReviewController.cs ====================
+using Microsoft.AspNetCore.Mvc;
+
+namespace ProductReview.Controllers
+{
+    public class ReviewController : Controller
+    {
+        // Action Index trả về view Index
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        // Action Add trả về view Add, truyền tên sản phẩm qua ViewBag
+        public IActionResult Add()
+        {
+            ViewBag.ProductName = "Điện thoại Samsung Galaxy S24";
+            return View();
+        }
+
+        // Action Result trả về view Result, truyền điểm đánh giá qua ViewData
+        public IActionResult Result()
+        {
+            ViewData["Score"] = 9;
+            return View();
+        }
+    }
+}
+
+==================== ProductReview/Views/_ViewImports.cshtml ====================
+@using ProductReview
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+==================== ProductReview/Views/_ViewStart.cshtml ====================
+@{
+    Layout = null;
+}
+
+==================== ProductReview/Views/Review/Index.cshtml ====================
+@{
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>Đánh giá sản phẩm</h1>
+
+    <p>
+        <a asp-action="Add">Thêm đánh giá</a> |
+        <a asp-action="Result">Xem kết quả</a>
+    </p>
+
+    <partial name="_ReviewFooter" />
+</body>
+</html>
+
+==================== ProductReview/Views/Review/Add.cshtml ====================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Add</title>
+</head>
+<body>
+    <h1>Thêm đánh giá</h1>
+
+    <p>Tên sản phẩm: <strong>@ViewBag.ProductName</strong></p>
+
+    <a asp-action="Index">Quay lại</a>
+
+    <partial name="_ReviewFooter" />
+</body>
+</html>
+
+==================== ProductReview/Views/Review/Result.cshtml ====================
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Result</title>
+</head>
+<body>
+    <h1>Kết quả đánh giá</h1>
+
+    <p>Điểm đánh giá: <strong>@ViewData["Score"]</strong>/10</p>
+
+    <a asp-action="Index">Quay lại</a>
+
+    <partial name="_ReviewFooter" />
+</body>
+</html>
+
+==================== ProductReview/Views/Shared/_ReviewFooter.cshtml ====================
+<hr />
+<footer>
+    <p>Cảm ơn bạn đã đánh giá!</p>
+</footer>
+
+==================== ProductReview/Properties/launchSettings.json ====================
+{
+  "profiles": {
+    "ProductReview": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+
+==================== ProductReview/appsettings.json ====================
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+
