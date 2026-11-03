@@ -30,13 +30,35 @@ app.MapControllerRoute(
 
 app.Run();
 
+==================== ProductReview/Models/Review.cs ====================
+namespace ProductReview.Models
+{
+    public class Review
+    {
+        public int Id { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public int Score { get; set; }
+        public string Comment { get; set; } = string.Empty;
+    }
+}
+
 ==================== ProductReview/Controllers/ReviewController.cs ====================
 using Microsoft.AspNetCore.Mvc;
+using ProductReview.Models;
 
 namespace ProductReview.Controllers
 {
     public class ReviewController : Controller
     {
+        // Dữ liệu mẫu
+        private static readonly Review _review = new Review
+        {
+            Id = 1,
+            ProductName = "Điện thoại Samsung Galaxy S24",
+            Score = 9,
+            Comment = "Sản phẩm tốt, pin trâu"
+        };
+
         // Action Index trả về view Index
         public IActionResult Index()
         {
@@ -46,14 +68,14 @@ namespace ProductReview.Controllers
         // Action Add trả về view Add, truyền tên sản phẩm qua ViewBag
         public IActionResult Add()
         {
-            ViewBag.ProductName = "Điện thoại Samsung Galaxy S24";
+            ViewBag.ProductName = _review.ProductName;
             return View();
         }
 
         // Action Result trả về view Result, truyền điểm đánh giá qua ViewData
         public IActionResult Result()
         {
-            ViewData["Score"] = 9;
+            ViewData["Score"] = _review.Score;
             return View();
         }
     }
@@ -61,6 +83,7 @@ namespace ProductReview.Controllers
 
 ==================== ProductReview/Views/_ViewImports.cshtml ====================
 @using ProductReview
+@using ProductReview.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 ==================== ProductReview/Views/_ViewStart.cshtml ====================
