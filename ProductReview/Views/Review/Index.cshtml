@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>Đánh giá sản phẩm</h1>
+
+    <p>
+        <a asp-action="Add">Thêm đánh giá</a> |
+        <a asp-action="Result">Xem kết quả</a>
+    </p>
+
+    <partial name="_ReviewFooter" />
+</body>
+</html>
